@@ -112,6 +112,7 @@ async def on_message(message):
 
 def main():
     # who needs security...hardcode all the things
+    # discord server key
     client.run('')
 
 
