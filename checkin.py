@@ -112,7 +112,7 @@ async def on_message(message):
 
 def main():
     # who needs security...hardcode all the things
-    client.run('ODE1MTIxMzk3NzA5MDEzMDUy.YDny9Q.YJ7ItH2Ld8ZSaZ94puQmw2tV1Ok')
+    client.run('')
 
 
 if __name__ == '__main__':
