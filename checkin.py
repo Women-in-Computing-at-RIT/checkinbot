@@ -1,19 +1,28 @@
 import discord
 import requests
+from datetime import datetime
 
 intents = discord.Intents.default()
 intents.members = True
+intents.messages = True
 client = discord.Client(intents=intents)  # Client initialization
 
 # Alex
 AuthorizedUsers = [352641008040804352]
 
-event_code = "xxxxx"
-event_name = "We-re done"
-# Past Events:
+# Event date in "YYYY-MM-DD" format
+day1 = "2021-10-26"
+day2 = "2021-10-27"
+# event format - "event-code-here": {start-time: "YYYY-MM-DD HH:MM", end-time: "HH:MM:SS", "name": "__"}
+# Note: on startup times will be parsed and turned into datetime objects with keys datetime-start and datetime-end
+events = {
+    "code1": {"start-time": f"{day1} 10:45", "end-time": f"{day2} 11:30", "name": "Open"},
+    "AX4U2": {"start-time": f"{day1} 10:25", "end-time": f"{day2} 12:55", "name": "Event 2"},
+    "code3": {"start-time": f"{day2} 3:30", "end-time": f"{day2} 3:50", "name": "Close"}
+}
 
 
-def verify_admin(message):
+def verify_admin(message) -> bool:
     if message.author.id in AuthorizedUsers:
         return True
     return False
@@ -37,13 +46,31 @@ async def help_manager(message):
         return
 
 
+def check_code(code) -> (bool, str):
+    """
+    Takes code and determines whether code is valid for current time
+
+    :param code:
+    :param now:
+    :return: bool indicating if code is valid, str representing name of event
+    """
+    if code not in events:
+        return False, ""
+    time = datetime.now()
+    if events[code]["datetime-start"] < time < events[code]["datetime-end"]:
+        # user is within valid checkin time
+        return True, events[code]["name"]
+    return False, ""
+
+
 async def checkin(message):
     divided = message.content.strip().split()
     if len(divided) != 2:
         await message.channel.send("Usage: `$checkin (code)`")
         return
     code = divided[1]
-    if code != event_code:
+    valid_code, event_name = check_code(code)
+    if not valid_code:
         await message.channel.send("Checkin Failed: Incorrect Code")
         return
     r = requests.post(f"http://localhost:8880/api/hackers/{message.author.id}/{message.author.name}/event/{event_name}")
@@ -87,9 +114,25 @@ def test_go_connection():
         exit(2)
     return
 
+
+def parse_date(time) -> datetime:
+    return datetime.strptime(time, "%Y-%m-%d %H:%M")
+
+
+def parse_times():
+    for value in events.values():
+        value["datetime-start"] = parse_date(value["start-time"])
+        value["datetime-end"] = parse_date(value["end-time"])
+        if value["datetime-start"] > value["datetime-end"]:
+            print("Start time after End time")
+            raise Exception
+
+
 @client.event
 async def on_ready():
     test_go_connection()
+    parse_times()
+    print("Ready to Handle Requests")
 
 
 @client.event
@@ -113,7 +156,7 @@ async def on_message(message):
 def main():
     # who needs security...hardcode all the things
     # discord bot key
-    client.run('')
+    client.run('ODE1MTIxMzk3NzA5MDEzMDUy.YDny9Q.K2pjcZciXIEERa5cK0NYgzX2o4o')
 
 
 if __name__ == '__main__':
