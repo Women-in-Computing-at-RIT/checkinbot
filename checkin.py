@@ -137,6 +137,32 @@ async def getwinner(message):
     return
 
 
+async def getgrandwinner(message):
+    """
+    Gets the grand prize winner
+    :param message: Discord message
+    :return:
+    """
+    # Authorized users only
+    if not verify_admin(message):
+        print("Unauthorized user tried to get winner")
+        return
+    divided = message.content.strip().split()
+    # Incorrect arguments
+    if len(divided) != 1:
+        await message.channel.send("Usage: `getgrandwinner`")
+        return
+    # Get winner from Web Server
+    r = requests.get(f"http://localhost:8880/api/events/get-winner/grand-prize")
+    # Unsuccessful request to Web Server
+    if r.status_code != 200:
+        print(r.json())
+        await message.channel.send("Something went wrong, please check the logs")
+        return
+    await message.channel.send(r.json())
+    return
+
+
 def test_go_connection():
     """
     Checks status to Go Web Server (WiCHacksBotAPI)
@@ -192,6 +218,8 @@ async def on_message(message):
         await checkin(message)
     if command == "$getwinner":
         await getwinner(message)
+    if command == "$getgrandwinner":
+        await getgrandwinner(message)
 
 
 def main():
