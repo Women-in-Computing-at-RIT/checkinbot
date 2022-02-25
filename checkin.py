@@ -13,19 +13,26 @@ AuthorizedUsers = [352641008040804352, 195687412956004352, 134870132538212353]
 # api domain
 API_DOMAIN = "localhost:8880"
 
+CEREMONY_POINTS = 3
+TECH_TALK_POINTS = 1
+
 # Event date in "YYYY-MM-DD" format
 day1 = "2022-02-26"
 day2 = "2022-02-27"
-
-CEREMONY_POINTS = 3
-TECH_TALK_POINTS = 1
 # event format - "event-code-here": {start-time: "YYYY-MM-DD HH:MM", end-time: "HH:MM:SS", "name": "__"}
 # Note: on startup times will be parsed and turned into datetime objects with keys datetime-start and datetime-end
 events = {
-    "7YPN2": {"start-time": f"{day1} 10:45", "end-time": f"{day1} 11:30", "name": "OpeningCeremony", "points": CEREMONY_POINTS},
-    "BXBN1": {"start-time": f"{day1} 10:25", "end-time": f"{day1} 12:55", "name": "MTTechTalk", "points": TECH_TALK_POINTS},
-    "8ECP7": {"start-time": f"{day1} 3:30", "end-time": f"{day1} 3:50", "name": "CbrandsTechTalk", "points": TECH_TALK_POINTS},
-    "Y8XN4": {"start-time": f"{day2} 10:45", "end-time": f"{day2} 11:30", "name": "ClosingCeremony", "points": CEREMONY_POINTS},
+    "PJ823": {"start-time": f"{day1} 10:00", "end-time": f"{day1} 11:00", "name": "OpeningCeremony", "points": CEREMONY_POINTS},
+    "8ADHE": {"start-time": f"{day1} 13:00", "end-time": f"{day1} 13:35", "name": "M&TTech", "points": TECH_TALK_POINTS},
+    "P0M31": {"start-time": f"{day1} 13:40", "end-time": f"{day1} 14:00", "name": "Brite", "points": TECH_TALK_POINTS},
+    "L9RXA": {"start-time": f"{day1} 14:05", "end-time": f"{day1} 14:55", "name": "ConstellationBrands", "points": TECH_TALK_POINTS},
+    "13DA1": {"start-time": f"{day1} 15:00", "end-time": f"{day1} 15:20", "name": "Wayfair", "points": TECH_TALK_POINTS},
+    "AFQG9": {"start-time": f"{day1} 15:50", "end-time": f"{day1} 16:10", "name": "L3Harris", "points": TECH_TALK_POINTS},
+    "G674H": {"start-time": f"{day1} 16:15", "end-time": f"{day1} 17:05", "name": "Foundry", "points": TECH_TALK_POINTS},
+    "10BHE": {"start-time": f"{day1} 17:10", "end-time": f"{day1} 17:30", "name": "VisualDx", "points": TECH_TALK_POINTS},
+    "LAD9H": {"start-time": f"{day1} 17:35", "end-time": f"{day1} 18:25", "name": "CloudBlue", "points": TECH_TALK_POINTS},
+    "8T6RE": {"start-time": f"{day1} 18:30", "end-time": f"{day1} 19:05", "name": "STR", "points": TECH_TALK_POINTS},
+    "Z7GXN": {"start-time": f"{day2} 15:00", "end-time": f"{day2} 16:05", "name": "ClosingCeremony", "points": CEREMONY_POINTS},
 }
 
 """
