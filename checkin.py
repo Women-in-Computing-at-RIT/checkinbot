@@ -81,12 +81,12 @@ def check_code(code) -> (bool, str, int):
     :return: bool indicating if code is valid, str representing name of event
     """
     if code not in events:
-        return False, ""
+        return False, "", 0
     time = datetime.now()
     if events[code]["datetime-start"] < time < events[code]["datetime-end"]:
         # user is within valid checkin time
         return True, events[code]["name"], events[code]["points"]
-    return False, ""
+    return False, "", 0
 
 
 async def checkin(message):
