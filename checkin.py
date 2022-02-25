@@ -10,6 +10,9 @@ client = discord.Client(intents=intents)  # Client initialization
 # Alex
 AuthorizedUsers = [352641008040804352, 195687412956004352, 134870132538212353]
 
+# api domain
+API_DOMAIN = "localhost:8880"
+
 # Event date in "YYYY-MM-DD" format
 day1 = "2022-02-26"
 day2 = "2022-02-27"
@@ -92,7 +95,7 @@ async def checkin(message):
     if not valid_code:
         await message.channel.send("Checkin Failed: Incorrect Code")
         return
-    r = requests.post(f"http://localhost:8880/api/hackers/{message.author.id}/{message.author.name}/event/{event_name}/{event_points}")
+    r = requests.post(f"http://{API_DOMAIN}/api/hackers/{message.author.id}/{message.author.name}/event/{event_name}/{event_points}")
     if r.status_code == 500:
         print("Check-in failure")
         print(r.json())
@@ -127,7 +130,7 @@ async def getwinner(message):
         return
     # Get winner from Web Server
     name = divided[1]
-    r = requests.get(f"http://localhost:8880/api/events/{name}/get-winner")
+    r = requests.get(f"http://{API_DOMAIN}/api/events/{name}/get-winner")
     # Unsuccessful request to Web Server
     if r.status_code != 200:
         print(r.json())
@@ -153,7 +156,7 @@ async def getgrandwinner(message):
         await message.channel.send("Usage: `getgrandwinner`")
         return
     # Get winner from Web Server
-    r = requests.get(f"http://localhost:8880/api/events/get-winner/grand-prize")
+    r = requests.get(f"http://{API_DOMAIN}/api/events/get-winner/grand-prize")
     # Unsuccessful request to Web Server
     if r.status_code != 200:
         print(r.json())
@@ -167,7 +170,7 @@ def test_go_connection():
     """
     Checks status to Go Web Server (WiCHacksBotAPI)
     """
-    r = requests.get('http://localhost:8880/api/ping')
+    r = requests.get(f"http://{API_DOMAIN}/api/ping")
     if r.status_code != 200:
         print("Couldn't Connect to Web Server")
         exit(2)
