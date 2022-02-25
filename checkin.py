@@ -97,7 +97,7 @@ async def checkin(message):
         print("Check-in failure")
         print(r.json())
         # TODO: change to future logistics heads
-        await message.channel.send("CheckinBot Failure: Please contact Alex - Logistics for help")
+        await message.channel.send("CheckinBot Failure: Please contact Aby Tiet or Annie Tiet for help")
         return
     # Unable to check in due to unsuccessful connection to Web Server
     elif r.status_code != 200:
