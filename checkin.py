@@ -8,17 +8,21 @@ intents.messages = True
 client = discord.Client(intents=intents)  # Client initialization
 
 # Alex
-AuthorizedUsers = [352641008040804352]
+AuthorizedUsers = [352641008040804352, 195687412956004352, 134870132538212353]
 
 # Event date in "YYYY-MM-DD" format
-day1 = "2021-10-26"
-day2 = "2021-10-27"
+day1 = "2022-02-26"
+day2 = "2022-02-27"
+
+CEREMONY_POINTS = 3
+TECH_TALK_POINTS = 1
 # event format - "event-code-here": {start-time: "YYYY-MM-DD HH:MM", end-time: "HH:MM:SS", "name": "__"}
 # Note: on startup times will be parsed and turned into datetime objects with keys datetime-start and datetime-end
 events = {
-    "code1": {"start-time": f"{day1} 10:45", "end-time": f"{day2} 11:30", "name": "Open"},
-    "AX4U2": {"start-time": f"{day1} 10:25", "end-time": f"{day2} 12:55", "name": "Event 2"},
-    "code3": {"start-time": f"{day2} 3:30", "end-time": f"{day2} 3:50", "name": "Close"}
+    "7YPN2": {"start-time": f"{day1} 10:45", "end-time": f"{day1} 11:30", "name": "OpeningCeremony", "points": CEREMONY_POINTS},
+    "BXBN1": {"start-time": f"{day1} 10:25", "end-time": f"{day1} 12:55", "name": "MTTechTalk", "points": TECH_TALK_POINTS},
+    "8ECP7": {"start-time": f"{day1} 3:30", "end-time": f"{day1} 3:50", "name": "CbrandsTechTalk", "points": TECH_TALK_POINTS},
+    "Y8XN4": {"start-time": f"{day2} 10:45", "end-time": f"{day2} 11:30", "name": "ClosingCeremony", "points": CEREMONY_POINTS},
 }
 
 
@@ -46,7 +50,7 @@ async def help_manager(message):
         return
 
 
-def check_code(code) -> (bool, str):
+def check_code(code) -> (bool, str, int):
     """
     Takes code and determines whether code is valid for current time
 
@@ -59,7 +63,7 @@ def check_code(code) -> (bool, str):
     time = datetime.now()
     if events[code]["datetime-start"] < time < events[code]["datetime-end"]:
         # user is within valid checkin time
-        return True, events[code]["name"]
+        return True, events[code]["name"], events[code]["points"]
     return False, ""
 
 
@@ -69,11 +73,11 @@ async def checkin(message):
         await message.channel.send("Usage: `$checkin (code)`")
         return
     code = divided[1]
-    valid_code, event_name = check_code(code)
+    valid_code, event_name, event_points = check_code(code)
     if not valid_code:
         await message.channel.send("Checkin Failed: Incorrect Code")
         return
-    r = requests.post(f"http://localhost:8880/api/hackers/{message.author.id}/{message.author.name}/event/{event_name}")
+    r = requests.post(f"http://localhost:8880/api/hackers/{message.author.id}/{message.author.name}/event/{event_name}/{event_points}")
     if r.status_code == 500:
         print("checkin failure")
         print(r.json())
@@ -156,7 +160,7 @@ async def on_message(message):
 def main():
     # who needs security...hardcode all the things
     # discord bot key
-    client.run('ODE1MTIxMzk3NzA5MDEzMDUy.YDny9Q.K2pjcZciXIEERa5cK0NYgzX2o4o')
+    client.run('OTQzMzE4MDQ1MTIyNzg1MzIw.YgxTYw.Q3wEGFCHmVCzOSEkId8zHLaSYgw')
 
 
 if __name__ == '__main__':
