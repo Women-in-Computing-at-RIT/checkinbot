@@ -54,6 +54,8 @@ async def help_manager(message):
         if verify_admin(message):
             help_embed.add_field(name="\"$getwinner (event_name)\"", value="Generate winner from event",
                                  inline=False)
+            help_embed.add_field(name="\"$getgrandwinner\"", value="Generate grand prize winner",
+                                 inline=False)
         help_embed.add_field(name="\"$checkin (code)\"", value="Check-in to event",
                              inline=False)
         await message.channel.send(embed=help_embed)
