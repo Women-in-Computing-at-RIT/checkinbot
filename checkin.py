@@ -11,7 +11,7 @@ client = discord.Client(intents=intents)  # Client initialization
 AuthorizedUsers = [352641008040804352, 195687412956004352, 134870132538212353]
 
 # api domain
-API_DOMAIN = "localhost:8880"
+API_DOMAIN = "3.84.7.92:8880"
 
 CEREMONY_POINTS = 3
 TECH_TALK_POINTS = 1
@@ -238,7 +238,7 @@ def main():
     # who needs security...hardcode all the things
     # discord bot key
     # TODO: add the bot key / add to GitHub secrets
-    client.run('')
+    client.run('OTQzMzE4MDQ1MTIyNzg1MzIw.YgxTYw.T64TdIuEaw6e1guCPU8vqSF1YJ0')
 
 
 if __name__ == '__main__':
